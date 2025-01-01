@@ -1,11 +1,12 @@
-import React from 'react'
+import React from "react";
+import Body from "./components/Body";
 
 const App = () => {
   return (
-    <div>
-      Netflix
-    </div>
-  )
-}
+    <>
+      <Body />
+    </>
+  );
+};
 
-export default App
+export default App;
