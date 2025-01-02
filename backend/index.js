@@ -1,13 +1,21 @@
-import express  from "express";
-import dotenv from 'dotenv'
-dotenv.config()
+import express from "express";
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+import connectToDb from "./config/db.js";
+import userRoute from "./routes/user.route.js";
 
-const app = express()
+dotenv.config();
+connectToDb();
 
-app.get('/',(req,res)=>{
-    res.send("Hello")
-})
+const app = express();
+// middlewares
+app.use(express.json());
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
-app.listen(process.env.PORT,()=>{
-    console.log("server is running")
-})
+// apis
+app.use("/api/v1/user", userRoute);
+
+app.listen(process.env.PORT, () => {
+  console.log("server is running");
+});
