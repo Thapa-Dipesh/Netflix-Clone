@@ -60,7 +60,7 @@ export const Login = async (req, res) => {
     return res
       .status(200)
       .cookie("token", token, { httpOnly: true })
-      .json({ message: `Welcome back${user.fullName}`, success: true });
+      .json({ message: `Welcome back ${user.fullName}`, success: true });
   } catch (error) {
     console.log(error);
   }
