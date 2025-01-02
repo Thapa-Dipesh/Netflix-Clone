@@ -1,15 +1,40 @@
+import axios from "axios";
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { API_END_POINT } from "../utils/constants";
 import Footer from "./Footer";
 
 const Register = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+
+    const user = { fullName, email, password };
+
+    try {
+      const res = await axios.post(`${API_END_POINT}/register`, user, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      console.log(res);
+      if (res.data.success) {
+        toast.success(res.data.message);
+      }
+
+      navigate("/login");
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error);
+    }
+
     setFullName("");
     setEmail("");
     setPassword("");

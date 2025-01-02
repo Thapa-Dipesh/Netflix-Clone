@@ -1,14 +1,38 @@
+import axios from "axios";
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import Footer from "./Footer";
+import { API_END_POINT } from "../utils/constants";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+
+    const user = { email, password };
+    try {
+      const res = await axios.post(`${API_END_POINT}/login`, user, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      console.log(res);
+      if (res.data.success) {
+        toast.success(res.data.message);
+      }
+
+      navigate("/browse");
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error);
+    }
+
     setEmail("");
     setPassword("");
   };

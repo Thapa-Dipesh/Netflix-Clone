@@ -9,10 +9,15 @@ dotenv.config();
 connectToDb();
 
 const app = express();
+const corsObject={
+  origin:'http://localhost:5173',
+  credentials:true
+}
+
 // middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors(corsObject));
 app.use(express.urlencoded({ extended: true }));
 
 // apis

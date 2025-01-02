@@ -16,9 +16,13 @@ const Body = () => {
       element: <Login />,
     },
     {
-      path:'/register',
-      element:<Register />
-    }
+      path: "/register",
+      element: <Register />,
+    },
+    {
+      path: "/browse",
+      element: <Browse />,
+    },
   ]);
   return (
     <>
