@@ -7,9 +7,11 @@ import axios from "axios";
 import { API_END_POINT } from "../utils/constants";
 import { logoutUser } from "../redux/userSlice";
 import toast from "react-hot-toast";
+import MainContainer from "./MainContainer";
+import MovieContainer from "./MovieContainer";
 
 const Browse = () => {
-  const user = useSelector(store => store.app.user);
+  const user = useSelector((store) => store.app.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -22,8 +24,8 @@ const Browse = () => {
   const logoutHandler = async () => {
     try {
       const res = await axios.get(`${API_END_POINT}/logout`);
-      if(res.data.success){
-        toast.success(res.data.message)
+      if (res.data.success) {
+        toast.success(res.data.message);
       }
       dispatch(logoutUser());
       navigate("/login");
@@ -48,6 +50,10 @@ const Browse = () => {
             Log Out
           </button>
         </div>
+      </div>
+      <div>
+        <MainContainer />
+        <MovieContainer />
       </div>
       <Footer />
     </>
