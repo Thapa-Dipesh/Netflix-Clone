@@ -1,25 +1,37 @@
-import React from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Footer from "./Footer";
 import { useEffect } from "react";
-import axios from "axios";
-import { API_END_POINT } from "../utils/constants";
+import { API_END_POINT, Now_Playing_Movie, options } from "../utils/constants";
 import { logoutUser } from "../redux/userSlice";
 import toast from "react-hot-toast";
 import MainContainer from "./MainContainer";
 import MovieContainer from "./MovieContainer";
+import { getNowPlayingMovies } from "../redux/movieSlice";
 
 const Browse = () => {
-  const user = useSelector((store) => store.app.user);
+  const user = useSelector(store => store.app.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     navigate("/login");
-  //   }
-  // }, []);
+  const nowPlayingMovie = async () => {
+    try {
+      const res = await axios.get(Now_Playing_Movie, options);
+      console.log(res);
+      dispatch(getNowPlayingMovies(res.data.results))
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  useEffect(() => {
+    // if (!user) {
+    //   navigate("/login");
+    // }
+    nowPlayingMovie();
+  }, []);
 
   const logoutHandler = async () => {
     try {

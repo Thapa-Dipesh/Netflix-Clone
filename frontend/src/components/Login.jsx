@@ -3,7 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
 import Footer from "./Footer";
 import { API_END_POINT } from "../utils/constants";
 import { setLoading, setUser } from "../redux/userSlice";
@@ -12,14 +12,14 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const isLoading = useSelector(store=>store.app.isLoading)
+  const isLoading = useSelector((store) => store.app.isLoading);
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    dispatch(setLoading(true))
+    dispatch(setLoading(true));
     const user = { email, password };
     try {
       const res = await axios.post(`${API_END_POINT}/login`, user, {
@@ -33,13 +33,13 @@ const Login = () => {
         toast.success(res.data.message);
       }
 
-      dispatch(setUser(res.data.user))
+      dispatch(setUser(res.data.user));
       navigate("/browse");
     } catch (error) {
       toast.error(error.response.data.message);
       console.log(error);
-    }finally{
-      dispatch(setLoading(false))
+    } finally {
+      dispatch(setLoading(false));
     }
 
     setEmail("");
