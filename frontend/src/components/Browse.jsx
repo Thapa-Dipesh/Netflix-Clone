@@ -9,29 +9,27 @@ import toast from "react-hot-toast";
 import MainContainer from "./MainContainer";
 import MovieContainer from "./MovieContainer";
 import { getNowPlayingMovies } from "../redux/movieSlice";
+import useNowPlayingMovie from "../hooks/useNowPlayingMovies";
+import usePopularMovie from "../hooks/usePopularMovies";
+import useTopRatedMovies from "../hooks/useTopRatedMovies";
+import useUpcomingMovies from "../hooks/useUpcomingMovies";
 
 const Browse = () => {
-  const user = useSelector(store => store.app.user);
+  const user = useSelector((store) => store.app.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const nowPlayingMovie = async () => {
-    try {
-      const res = await axios.get(Now_Playing_Movie, options);
-      console.log(res);
-      dispatch(getNowPlayingMovies(res.data.results))
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // hooks
+  useNowPlayingMovie();
+  usePopularMovie();
+  useTopRatedMovies();
+  useUpcomingMovies();
 
-
-  useEffect(() => {
-    // if (!user) {
-    //   navigate("/login");
-    // }
-    nowPlayingMovie();
-  }, []);
+  // useEffect(() => {
+  //   if (!user) {
+  //     navigate("/login");
+  //   }
+  // }, []);
 
   const logoutHandler = async () => {
     try {
