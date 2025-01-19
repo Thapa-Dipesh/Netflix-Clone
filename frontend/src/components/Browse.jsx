@@ -8,14 +8,16 @@ import { logoutUser } from "../redux/userSlice";
 import toast from "react-hot-toast";
 import MainContainer from "./MainContainer";
 import MovieContainer from "./MovieContainer";
-import { getNowPlayingMovies } from "../redux/movieSlice";
+import { getNowPlayingMovies, setToggle } from "../redux/movieSlice";
 import useNowPlayingMovie from "../hooks/useNowPlayingMovies";
 import usePopularMovie from "../hooks/usePopularMovies";
 import useTopRatedMovies from "../hooks/useTopRatedMovies";
 import useUpcomingMovies from "../hooks/useUpcomingMovies";
+import SearchMovie from "./SearchMovie";
 
 const Browse = () => {
   const user = useSelector((store) => store.app.user);
+  const toggle = useSelector((store) => store.movie.toggle);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -44,6 +46,10 @@ const Browse = () => {
     }
   };
 
+  const toggleHandler = () => {
+    dispatch(setToggle());
+  };
+
   return (
     <>
       <div className="flex items-center justify-between px-32 py-4 bg-gradient-to-b from-black">
@@ -54,6 +60,19 @@ const Browse = () => {
         />
         <div className="flex items-center justify-center gap-4">
           <h1>User</h1>
+          {toggle ? (
+            <button
+              onClick={toggleHandler}
+              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-base font-bold">
+              Home
+            </button>
+          ) : (
+            <button
+              onClick={toggleHandler}
+              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-base font-bold">
+              Search Movie
+            </button>
+          )}
           <button
             onClick={logoutHandler}
             className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-base font-bold">
@@ -62,8 +81,14 @@ const Browse = () => {
         </div>
       </div>
       <div>
-        <MainContainer />
-        <MovieContainer />
+        {toggle ? (
+          <SearchMovie />
+        ) : (
+          <>
+            <MainContainer />
+            <MovieContainer />
+          </>
+        )}
       </div>
       <Footer />
     </>

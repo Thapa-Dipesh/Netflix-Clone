@@ -1,6 +1,8 @@
 import React from "react";
+import useMovieById from "../hooks/useMovieById";
 
-const VideoBackground = () => {
+const VideoBackground = (movieId) => {
+  useMovieById(movieId)
   return (
     <div className="w-full">
       <iframe
