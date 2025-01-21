@@ -53,7 +53,11 @@ const SearchMovie = () => {
         </form>
       </div>
       <div className="px-12 py-20">
-        <MovieList title={movieName} movies={searchedMovie} />
+        {searchedMovie !== null ? (
+          <MovieList title={movieName} movies={searchedMovie} />
+        ) : (
+          <h1>Movies Not Found...</h1>
+        )}
       </div>
     </>
   );
